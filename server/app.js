@@ -16,6 +16,7 @@ app.get('/', function(req,res){
   res.send('hai, project week 1 phase 1')
 })
 
+app.use('/facebook', facebook)
 
 
 app.listen(3000)
