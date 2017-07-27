@@ -2,13 +2,12 @@
 
 const FB  = require('fb')
 const User = require('../models/users')
-
+const jwt = require('jsonwebtoken');
 
 function login(req,res){
   const accessToken = req.headers.token;
   FB.setAccessToken(accessToken)
   FB.api('/me', {fields: ['id','name','gender', 'link', 'email']} ,function(response){
-    console.log(response);
     User.create({
       name: response.name,
       username: response.name,
@@ -16,7 +15,19 @@ function login(req,res){
       fb_token: accessToken
     })
     .then(log=>{
-      res.send(response)
+      const token = jwt.sign({
+        id: response.id,
+        name: response.name,
+        gender: response.gender,
+        link: response.link,
+        email: response.email
+      }, 'StasXff');
+
+      const data = {
+        token: token,
+        name: response.name
+      }
+      res.send(data)
     })
   })
 }
@@ -24,8 +35,6 @@ function login(req,res){
 function postToFacebook(req,res){
   const accessToken = req.body.token;
   const msg = req.body.pesan;
-  console.log(accessToken);
-  console.log(msg);
   FB.setAccessToken(accessToken)
   FB.api('me/feed', 'post', {
     message: msg

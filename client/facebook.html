@@ -7,24 +7,51 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <style media="screen">
+
+      .button {
+      text-align: center;
+      background-color: white;
+      color: #0b7dda;
+      border: 2px solid #0b7dda;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 10px;
+      margin-top: 120px;
+      width: 200px;
+      transition: width 0.5s;
+      -webkit-transition: width 0.5s;
+      }
+
+    .button:hover {
+      background-color: #0b7dda;
+      color: white;
+      width: 250px;
+    }
+    </style>
   </head>
 <body>
-  <div class="col-md-4 halo">
+  <div class="container">
+    <div class="col-md-6 col-md-offset-3 text-center">
+      <div class="page-header halo">
 
-  </div>
-  <div class="kode">
-    <input class='post' type="text" name="post">
+      </div>
+    </div>
+    <div class="col-md-6 col-md-offset-3 text-center">
+      <button class='button 1'  type="button" name="button" onclick="login()">Login with FB</button>
+      <button class='button 2' style="display: none;" type="button" name="button" onclick="post()">Post</button>
+    </div>
+    <div class="col-md-6 col-md-offset-3 text-center kode">
+      <input style="display: none;" type="text" class="form-control post"  placeholder="Post">
+    </div>
   </div>
 
-  <button class='test'  type="button" name="button" onclick="login()">Login with FB</button>
-  <button class='post'  type="button" name="button" onclick="post()">Post</button>
 
 <script>
-
-
-  // This function is called when someone finishes with the Login
-  // Button.  See the onlogin handler attached to it in the sample
-  // code below.
 
   window.fbAsyncInit = function() {
   FB.init({
@@ -34,20 +61,6 @@
     xfbml      : true,  // parse social plugins on this page
     version    : 'v2.8' // use graph api version 2.8
   });
-
-  // Now that we've initialized the JavaScript SDK, we call
-  // FB.getLoginStatus().  This function gets the state of the
-  // person visiting this page and can return one of three states to
-  // the callback you provide.  They can be:
-  //
-  // 1. Logged into your app ('connected')
-  // 2. Logged into Facebook, but not your app ('not_authorized')
-  // 3. Not logged into Facebook and can't tell if they are logged into
-  //    your app or not.
-  //
-  // These three cases are handled in the callback function.
-
-
   };
 
   // Load the SDK asynchronously
@@ -63,6 +76,7 @@
   // successful.  See statusChangeCallback() for when this call is made.
 
   function login(){
+    $('.button.1').fadeOut('slow', function(){
     FB.login(function(response){
       if(response.authResponse){
         console.log(response);
@@ -74,14 +88,18 @@
           }
         })
         .then(response =>{
-          $('.halo').append(`<p>Hai!  ${response.data.name}</p>`);
-          $('.kode').append(`<input type="hidden" name="token" class="token" value="${response.data}">`)
-          console.log(response);
+          console.log(response.data);
+          $('.button.2').fadeIn('slow', function(){
+            $('.post').fadeIn('slow', function(){
+                $('.halo').append($(`<h1>Hai!  ${response.data.name} <small>Post something??</small></h1>`).hide().fadeIn('slow'));
+            })
+          })
         })
       }else {
         console.log('user canceled login or dit not fully authorize');
       }
     }, {scope: 'publish_actions,email,public_profile'})
+    })
   }
 
   function post(){
@@ -97,20 +115,14 @@
         })
 }
 
-$('.test').click(function(){
-  $( ".test" ).fadeOut( "slow", function() {
+// $('.button.1').click(function(){
+//   $('.button.1').fadeOut('slow', function(){
+//     $('.button.2').fadeIn('slow')
+//   })
+// })
   // Animation complete.
-})
-})
 
 </script>
-
-<!--
-  Below we include the Login Button social plugin. This button uses
-  the JavaScript SDK to present a graphical Login button that triggers
-  the FB.login() function when clicked.
--->
-
 
 </body>
 </html>
