@@ -11,7 +11,7 @@ app.use(bodyParser.json({type: 'application/x-www-form-urlencoded'}))
 
 
 app.get('/', function(req,res){
-  res.send('hai, project week 1 phase 1')
+  res.send('hai, project week 1 phase 2')
 })
 
 
