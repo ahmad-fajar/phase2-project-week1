@@ -3,6 +3,8 @@
 const express = require('express')
 const app = express();
 const bodyParser = require('body-parser')
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/week-project')
 
 const search = require('./routers/search')
 const cors = require('cors')

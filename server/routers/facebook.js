@@ -6,6 +6,7 @@ const controller = require('../controller/facebook')
 
 
 router.get('/login', controller.login)
+router.post('/post', controller.postToFacebook)
 
 
 module.exports = router;
