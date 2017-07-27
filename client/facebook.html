@@ -12,6 +12,12 @@
   <div class="col-md-4 halo">
 
   </div>
+  <div class="kode">
+    <input class='post' type="text" name="post">
+  </div>
+
+  <button class='test'  type="button" name="button" onclick="login()">Login with FB</button>
+  <button class='post'  type="button" name="button" onclick="post()">Post</button>
 
 <script>
 
@@ -61,39 +67,41 @@
       if(response.authResponse){
         console.log(response);
         console.log('Welcome! Fetching your information');
+        localStorage.setItem('fbaccesstoken', response.authResponse.accessToken)
         axios.get('http://localhost:3000/facebook/login', {
           headers:{
             token: response.authResponse.accessToken
           }
         })
         .then(response =>{
-          $('.halo').append(`<p>Hai!  ${response.data.name}</p>`)
+          $('.halo').append(`<p>Hai!  ${response.data.name}</p>`);
+          $('.kode').append(`<input type="hidden" name="token" class="token" value="${response.data}">`)
           console.log(response);
         })
       }else {
         console.log('user canceled login or dit not fully authorize');
       }
-    })
+    }, {scope: 'publish_actions,email,public_profile'})
   }
 
   function post(){
-    FB.login(function(response){
-      if(response.authResponse){
         axios.post('http://localhost:3000/facebook/post', {
-          headers:{
-            token: response.authResponse.accessToken,
-            msg: 'My first post using facebook-node-sdk'
-          }
+            token: localStorage.getItem('fbaccesstoken'),
+            pesan: $('.post').val()
         })
         .then(res =>{
           console.log(res);
         })
-      }else {
-        console.log('error');
-      }
-    })
+        .catch(err =>{
+          console.log(err);
+        })
 }
 
+$('.test').click(function(){
+  $( ".test" ).fadeOut( "slow", function() {
+  // Animation complete.
+})
+})
 
 </script>
 
@@ -102,10 +110,7 @@
   the JavaScript SDK to present a graphical Login button that triggers
   the FB.login() function when clicked.
 -->
-<button class='test'  type="button" name="button" onclick="login()">Login with FB</button>
-<button class='post'  type="button" name="button" onclick="post()">Post</button>
-<div id="status">
-</div>
+
 
 </body>
 </html>
