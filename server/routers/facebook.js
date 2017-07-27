@@ -5,7 +5,7 @@ const router = express.Router()
 const controller = require('../controller/facebook')
 
 
-router.get('/', controller.login)
+router.get('/login', controller.login)
 
 
 module.exports = router;
