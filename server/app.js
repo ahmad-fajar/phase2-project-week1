@@ -18,9 +18,10 @@ app.use('/', search);
 const facebook = require('./routers/facebook')
 
 app.get('/', function(req,res){
+  console.log('index page');
   res.send('hai, project week 1 phase 2')
 })
 
 app.use('/facebook', facebook)
 
-app.listen(3000)
+app.listen(3000, () => console.log('Listening...'))
