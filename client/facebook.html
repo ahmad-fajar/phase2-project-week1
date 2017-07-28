@@ -6,7 +6,9 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js">
+
+    </script>
 
     <style media="screen">
 
@@ -117,10 +119,10 @@
     })
   }
 
-  function post(){
+  function postToFacebook(val){
         axios.post('http://localhost:3000/facebook/post', {
             token: localStorage.getItem('fbaccesstoken'),
-            pesan: $('.post').val()
+            pesan: val
         })
         .then(res =>{
           console.log(res);
@@ -130,8 +132,8 @@
         })
 }
 
-//search ajax
 
+//search ajax
 var $q = $('#q');
 $('form.search').submit(eventHandler => {
   $('.output').empty();
@@ -150,14 +152,14 @@ $('form.search').submit(eventHandler => {
         datum.restaurant.thumb = 'http://www.clker.com/cliparts/q/L/P/Y/t/6/no-image-available-md.png'
       }
       $('.output').append(
-        (`<div class="col-sm-3 col-lg-3 col-md-3 ">
+        (`<div class="col-sm-3 col-lg-3 col-md-3 test">
           <div class="thumbnail" style="height: 400px; margin-bottom:-10px;">
-              <img style="max-height: 220px;" src="${datum.restaurant.thumb}" alt="">
+              <img class="" style="max-height: 220px;" src="${datum.restaurant.thumb}" alt="">
               <div class="caption">
-                  <h4><a href="#" style="white-space: normal;">${datum.restaurant.name}</a>
+                  <h4><a class='post' style="white-space: normal;">${datum.restaurant.name}</a>
                   <h5>IDR ${datum.restaurant.average_cost_for_two} (for two)</h4>
                   </h4>
-                  <p>${datum.restaurant.location.address}</p>
+                  <p class="">${datum.restaurant.location.address}</p>
               </div>
           </div>
           <div class="caption thumbnail text-center" style="margin-top:-10px;"><a href="${datum.restaurant.events_url}">More Details</a></div>
@@ -168,6 +170,11 @@ $('form.search').submit(eventHandler => {
 })
 
 // end search ajax
+$('body').on("click",'.test', function(){
+  var data = $(this).html()
+  console.log(data)
+  // postToFacebook(data)
+})
 
 </script>
 
