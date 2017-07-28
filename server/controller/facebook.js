@@ -2,6 +2,7 @@
 
 const FB  = require('fb')
 const User = require('../models/users')
+const HistoryUser = require('../models/history')
 const jwt = require('jsonwebtoken');
 require('dotenv').config()
 
@@ -35,13 +36,26 @@ function login(req,res){
 }
 
 function postToFacebook(req,res){
+  const tokenUser = req.body.data
   const accessToken = req.body.token;
   const msg = req.body.pesan;
+  console.log(tokenUser);
   FB.setAccessToken(accessToken)
   FB.api('me/feed', 'post', {
     message: msg
   }, function(resp){
-    res.send(resp)
+    jwt.verify(tokenUser, process.env.SECRET, function(err, decoded) {
+          HistoryUser.create({
+            name: decoded.name,
+            date: new Date(),
+            search: msg,
+            email: decoded.email
+          })
+          .then(log=>{
+            console.log(log);
+            res.send(resp)
+          })
+      })
   })
 }
 
