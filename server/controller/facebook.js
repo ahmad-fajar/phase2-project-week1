@@ -15,6 +15,7 @@ function login(req,res){
       fb_token: accessToken
     })
     .then(log=>{
+      console.log(log);
       const token = jwt.sign({
         id: response.id,
         name: response.name,

@@ -6,7 +6,9 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js">
+
+    </script>
 
     <style media="screen">
 
@@ -43,14 +45,14 @@
     </div>
     <div class="col-md-6 col-md-offset-3 text-center">
       <button class='button 1'  type="button" name="button" onclick="login()">Login with FB</button>
-      <button class='button 2' style="display: none;" type="button" name="button" onclick="post()">Post</button>
+      <!-- <button class='button 2' style="display: none;" type="button" name="button" onclick="post()">Post</button> -->
     </div>
     <form class="search" action="#">
       <div class="col-md-4 col-md-offset-4 text-center kode">
         <button class='button 3' style="display: none;" type="submit" name="button">Search</button>
-        <input style="display: none;" type="text" class="form-control city" id="q" name="q"  placeholder="Food">
+        <input style="display: none;" type="text" class="form-control food" id="q" name="q"  placeholder="Food">
         <br>
-        <input style="display: none;" type="text" class="form-control food" id="entity_id" name="entity_id"  placeholder="City">
+        <!-- <input style="display: none;" type="text" class="form-control city" id="entity_id" name="entity_id"  placeholder="City"> -->
       </div>
     </form>
   </div>
@@ -101,13 +103,13 @@
         .then(response =>{
           console.log(response.data);
           $('.button.3').fadeIn('slow', function(){
-            $('.button.2').fadeIn('slow', function(){
-              $('.city').fadeIn('slow', function(){
+            // $('.button.2').fadeIn('slow', function(){
+              // $('.city').fadeIn('slow', function(){
                 $('.food').fadeIn('slow',function(){
                     $('.halo').append($(`<h1>Hai!  ${response.data.name} <small>Search some food?</small></h1>`).hide().fadeIn('slow'));
                 })
-              })
-            })
+              // })
+            // })
           })
         })
       }else {
@@ -117,10 +119,10 @@
     })
   }
 
-  function post(){
+  function postToFacebook(val){
         axios.post('http://localhost:3000/facebook/post', {
             token: localStorage.getItem('fbaccesstoken'),
-            pesan: $('.post').val()
+            pesan: val
         })
         .then(res =>{
           console.log(res);
@@ -130,20 +132,19 @@
         })
 }
 
-//search ajax
 
+//search ajax
 var $q = $('#q');
-var $entity_id = $('#entity_id');
 $('form.search').submit(eventHandler => {
+  $('.output').empty();
   eventHandler.preventDefault()
   axios.get('http://localhost:3000/search', {
     params : {
-      q : $q.val(),
-      entity_id : $entity_id.val()
+      q : $q.val()
     }
   })
   .then(output => {
-    // console.log(data);
+    console.log(output);
     // console.log(data.data[0].restaurant.cuisines);
     output.data.forEach(datum => {
       console.log(datum);
@@ -151,15 +152,16 @@ $('form.search').submit(eventHandler => {
         datum.restaurant.thumb = 'http://www.clker.com/cliparts/q/L/P/Y/t/6/no-image-available-md.png'
       }
       $('.output').append(
-        (`<div class="col-sm-3 col-lg-3 col-md-3 ">
+        (`<div class="col-sm-3 col-lg-3 col-md-3 test">
           <div class="thumbnail" style="height: 400px; margin-bottom:-10px;">
-              <img style="max-height: 220px;" src="${datum.restaurant.thumb}" alt="">
+              <img class="" style="max-height: 220px;" src="${datum.restaurant.thumb}" alt="">
               <div class="caption">
-                  <h4><a href="#" style="white-space: normal;">${datum.restaurant.name}</a>
+                  <h4><a class='post' style="white-space: normal;">${datum.restaurant.name}</a>
                   <h5>IDR ${datum.restaurant.average_cost_for_two} (for two)</h4>
                   </h4>
-                  <p>${datum.restaurant.location.address}</p>
+                  <p class="">${datum.restaurant.location.address}</p>
               </div>
+              <button type="button" class="postFb" value="i\'m plannit to eat at ${datum.restaurant.name} ">Post To Facebook</button>
           </div>
           <div class="caption thumbnail text-center" style="margin-top:-10px;"><a href="${datum.restaurant.events_url}">More Details</a></div>
         </div>`)
@@ -169,6 +171,11 @@ $('form.search').submit(eventHandler => {
 })
 
 // end search ajax
+$('body').on("click",'.postFb', function(){
+  var data = $(this).val()
+  console.log(data)
+  postToFacebook(data)
+})
 
 </script>
 

@@ -7,8 +7,7 @@ function search (req,res) {
   // &sort=${querys}
   axios.get(`https://developers.zomato.com/api/v2.1/search`, {
     params : {
-      q : req.query.q,
-      entity_id : req.query.entity_id
+      q : req.query.q
     },
     headers:  {
       user_key: 'b49a945954ad5a3863ff3040076007d6'
