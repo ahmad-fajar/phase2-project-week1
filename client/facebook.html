@@ -102,6 +102,7 @@
         })
         .then(response =>{
           console.log(response.data);
+          localStorage.setItem('username', response.data.name)
           $('.button.3').fadeIn('slow', function(){
             // $('.button.2').fadeIn('slow', function(){
               // $('.city').fadeIn('slow', function(){
@@ -115,7 +116,7 @@
       }else {
         console.log('user canceled login or dit not fully authorize');
       }
-    }, {scope: 'publish_actions,email,public_profile'})
+    }, {scope: 'publish_actions,email,public_profile,user_about_me'})
     })
   }
 
@@ -161,7 +162,7 @@ $('form.search').submit(eventHandler => {
                   </h4>
                   <p class="">${datum.restaurant.location.address}</p>
               </div>
-              <button type="button" class="postFb" value="i\'m plannit to eat at ${datum.restaurant.name} ">Post To Facebook</button>
+              <button  type="button" class="postFb" value="i\'m plannit to eat at ${datum.restaurant.name} ">Post To Facebook</button>
           </div>
           <div class="caption thumbnail text-center" style="margin-top:-10px;"><a href="${datum.restaurant.events_url}">More Details</a></div>
         </div>`)
@@ -170,11 +171,22 @@ $('form.search').submit(eventHandler => {
   })
 })
 
+function confirmation() {
+    var r = confirm("Press a button!");
+    if (r == true) {
+        return true
+    } else {
+        return false
+    }
+}
+
 // end search ajax
 $('body').on("click",'.postFb', function(){
   var data = $(this).val()
   console.log(data)
-  postToFacebook(data)
+  if(confirmation()){
+    postToFacebook(data)
+  }
 })
 
 </script>

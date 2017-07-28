@@ -3,6 +3,7 @@
 const FB  = require('fb')
 const User = require('../models/users')
 const jwt = require('jsonwebtoken');
+require('dotenv').config()
 
 function login(req,res){
   const accessToken = req.headers.token;
@@ -22,7 +23,7 @@ function login(req,res){
         gender: response.gender,
         link: response.link,
         email: response.email
-      }, 'StasXff');
+      }, process.env.SECRET);
 
       const data = {
         token: token,
