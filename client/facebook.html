@@ -44,9 +44,12 @@
     <div class="col-md-6 col-md-offset-3 text-center">
       <button class='button 1'  type="button" name="button" onclick="login()">Login with FB</button>
       <button class='button 2' style="display: none;" type="button" name="button" onclick="post()">Post</button>
+      <button class='button 3' style="display: none;" type="button" name="button" onclick="search()">Search</button>
     </div>
-    <div class="col-md-6 col-md-offset-3 text-center kode">
-      <input style="display: none;" type="text" class="form-control post"  placeholder="Post">
+    <div class="col-md-4 col-md-offset-4 text-center kode">
+      <input style="display: none;" type="text" class="form-control city"  placeholder="City">
+      <br>
+      <input style="display: none;" type="text" class="form-control food"  placeholder="Food">
     </div>
   </div>
 
@@ -89,9 +92,13 @@
         })
         .then(response =>{
           console.log(response.data);
-          $('.button.2').fadeIn('slow', function(){
-            $('.post').fadeIn('slow', function(){
-                $('.halo').append($(`<h1>Hai!  ${response.data.name} <small>Post something??</small></h1>`).hide().fadeIn('slow'));
+          $('.button.3').fadeIn('slow', function(){
+            $('.button.2').fadeIn('slow', function(){
+              $('.city').fadeIn('slow', function(){
+                $('.food').fadeIn('slow',function(){
+                    $('.halo').append($(`<h1>Hai!  ${response.data.name} <small>Search some food?</small></h1>`).hide().fadeIn('slow'));
+                })
+              })
             })
           })
         })
@@ -114,6 +121,8 @@
           console.log(err);
         })
 }
+
+
 
 // $('.button.1').click(function(){
 //   $('.button.1').fadeOut('slow', function(){
