@@ -215,7 +215,7 @@
           // console.log(data);
           // console.log(data.data[0].restaurant.cuisines);
           output.data.forEach(datum => {
-            // console.log(datum.name);
+            console.log(datum);
             if(datum.restaurant.thumb === '') {
               datum.restaurant.thumb = 'http://www.clker.com/cliparts/q/L/P/Y/t/6/no-image-available-md.png'
             }
@@ -225,7 +225,7 @@
                     <img src="${datum.restaurant.thumb}" alt="">
                     <div class="caption">
                         <h4 class="pull-right">$64.99</h4>
-                        <h4><a href="#">${datum.restaurant.name}</a>
+                        <h4><a style="white-space: normal;" href="#">${datum.restaurant.name}</a>
                         </h4>
                         <p>${datum.restaurant.location.address}</p>
                     </div>
