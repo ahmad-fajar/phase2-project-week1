@@ -43,14 +43,14 @@
     </div>
     <div class="col-md-6 col-md-offset-3 text-center">
       <button class='button 1'  type="button" name="button" onclick="login()">Login with FB</button>
-      <button class='button 2' style="display: none;" type="button" name="button" onclick="post()">Post</button>
+      <!-- <button class='button 2' style="display: none;" type="button" name="button" onclick="post()">Post</button> -->
     </div>
     <form class="search" action="#">
       <div class="col-md-4 col-md-offset-4 text-center kode">
         <button class='button 3' style="display: none;" type="submit" name="button">Search</button>
-        <input style="display: none;" type="text" class="form-control city" id="q" name="q"  placeholder="Food">
+        <input style="display: none;" type="text" class="form-control food" id="q" name="q"  placeholder="Food">
         <br>
-        <input style="display: none;" type="text" class="form-control food" id="entity_id" name="entity_id"  placeholder="City">
+        <!-- <input style="display: none;" type="text" class="form-control city" id="entity_id" name="entity_id"  placeholder="City"> -->
       </div>
     </form>
   </div>
@@ -101,13 +101,13 @@
         .then(response =>{
           console.log(response.data);
           $('.button.3').fadeIn('slow', function(){
-            $('.button.2').fadeIn('slow', function(){
-              $('.city').fadeIn('slow', function(){
+            // $('.button.2').fadeIn('slow', function(){
+              // $('.city').fadeIn('slow', function(){
                 $('.food').fadeIn('slow',function(){
                     $('.halo').append($(`<h1>Hai!  ${response.data.name} <small>Search some food?</small></h1>`).hide().fadeIn('slow'));
                 })
-              })
-            })
+              // })
+            // })
           })
         })
       }else {
@@ -133,17 +133,16 @@
 //search ajax
 
 var $q = $('#q');
-var $entity_id = $('#entity_id');
 $('form.search').submit(eventHandler => {
+  $('.output').empty();
   eventHandler.preventDefault()
   axios.get('http://localhost:3000/search', {
     params : {
-      q : $q.val(),
-      entity_id : $entity_id.val()
+      q : $q.val()
     }
   })
   .then(output => {
-    // console.log(data);
+    console.log(output);
     // console.log(data.data[0].restaurant.cuisines);
     output.data.forEach(datum => {
       console.log(datum);
