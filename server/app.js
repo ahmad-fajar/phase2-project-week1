@@ -3,8 +3,10 @@
 const express = require('express')
 const app = express();
 const bodyParser = require('body-parser')
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/week-project')
 
-const search = require('./router/search')
+const search = require('./routers/search')
 const cors = require('cors')
 
 app.use(bodyParser.urlencoded({ extended:true }));
@@ -18,9 +20,10 @@ app.use('/', search);
 const facebook = require('./routers/facebook')
 
 app.get('/', function(req,res){
+  console.log('index page');
   res.send('hai, project week 1 phase 2')
 })
 
 app.use('/facebook', facebook)
 
-app.listen(3000)
+app.listen(3000, () => console.log('Listening...'))
