@@ -161,6 +161,7 @@ $('form.search').submit(eventHandler => {
                   </h4>
                   <p class="">${datum.restaurant.location.address}</p>
               </div>
+              <button type="button" class="postFb" value="i\'m plannit to eat at ${datum.restaurant.name} ">Post To Facebook</button>
           </div>
           <div class="caption thumbnail text-center" style="margin-top:-10px;"><a href="${datum.restaurant.events_url}">More Details</a></div>
         </div>`)
@@ -170,10 +171,10 @@ $('form.search').submit(eventHandler => {
 })
 
 // end search ajax
-$('body').on("click",'.test', function(){
-  var data = $(this).html()
+$('body').on("click",'.postFb', function(){
+  var data = $(this).val()
   console.log(data)
-  // postToFacebook(data)
+  postToFacebook(data)
 })
 
 </script>
